@@ -3,16 +3,6 @@ import pandas as pd
 from flask import Flask, render_template, request
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import json
-import bs4 as bs
-import urllib.request
-import pickle
-import requests
-
-# load the nlp model and tfidf vectorizer from disk
-filename = 'nlp_model.pkl'
-clf = pickle.load(open(filename, 'rb'))
-vectorizer = pickle.load(open('tranform.pkl','rb'))
 
 def create_similarity():
     data = pd.read_csv('datasets/main_data.csv')
@@ -42,14 +32,7 @@ def rcmd(m):
             a = lst[i][0]
             l.append(data['movie_title'][a])
         return l
-    
-# converting list of string to list (eg. "["abc","def"]" to ["abc","def"])
-def convert_to_list(my_list):
-    my_list = my_list.split('","')
-    my_list[0] = my_list[0].replace('["','')
-    my_list[-1] = my_list[-1].replace('"]','')
-    return my_list
-
+ 
 def get_suggestions():
     data = pd.read_csv('main_data.csv')
     return list(data['movie_title'].str.capitalize())
